@@ -1,11 +1,10 @@
 import openpyxl as xl
-from excellauto.utils import *
+from utils import *
 import os
 
-os.chdir("/home/ekoputra/Documents/Python/")
-newfilename = str(input('Masukkan Nama File Baru: '))
+os.chdir("/home/user044/Documents/Python/excellauto/")
 file1 = 'ooh.xlsx'
-file2 = f'{newfilename}.xlsx'
+file2 = 'ooh2.xlsx'
 
 wb = xl.load_workbook(file1)
 sheet = wb.active

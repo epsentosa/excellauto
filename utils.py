@@ -131,14 +131,14 @@ def input_data(sheet):
         #n = []
         for cell in sheet.iter_rows(min_row=6,max_col=2):
             cell_value = cell[1].value
-            if input_value in cell_value:
+            if input_value.upper() in cell_value:
                 data_input.append(cell[1])
                 print(cell_value,' Added')
             
             #Fungi dibawah menambahkan pesan apabila tidak ada dalam 1x loop, tetapi dengan  efek samping lama
-            
-            ''' else:
+            '''
+            else:
                 n += 1
-            if n == len(list(sheet.iter_rows(min_row=6,max_col=1))):
-                print('No Data, pls enter correct CMT') '''
+                if n == len(list(sheet.iter_rows(min_row=6,max_col=1))):
+                    print('No Data, pls enter correct CMT') '''
     return data_input

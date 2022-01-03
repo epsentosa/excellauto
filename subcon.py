@@ -61,7 +61,11 @@ for data in new_sheet.iter_rows(min_row=4, max_row=len_row):
             new_sheet.cell(row=row_number, column=3).value = cell[4].value
             new_sheet.cell(row=row_number, column=7).value = cell[10].value
             date = cell[12].value
-            new_sheet.cell(row=row_number, column=8).value = f"=DATE({date[-4::]},{date[3:5]},{date[:2]})"
+            year,month,day = date[-4::],date[3:5],date[:2]
+            #option 1
+            new_sheet.cell(row=row_number, column=8).value = f"=DATE({year},{month},{day})"
+            #option 2
+            #new_sheet.cell(row=row_number, column=8).value = f"{month}/{day}"
             new_sheet.cell(row=row_number, column=10).value = cell[11].value
             new_sheet.cell(row=row_number, column=11).value = cell[6].value
             new_sheet.cell(row=row_number, column=12).value = cell[9].value
