@@ -3,7 +3,7 @@ from openpyxl.styles.borders import Border, Side
 from openpyxl.utils.cell import coordinate_from_string, column_index_from_string
 from typing import Any
 
-#contoh hasil konvert (21/E/SB/C/GIOD/00767 - B to GIOD/767/B)
+#example result of convert (21/E/SB/C/GIOD/00767 - B to GIOD/767/B)
 def convert_cmt(cell_data, number='0'):
     index_second_char = cell_data.value.find(number)
     last_char = cell_data.value[-1::1]
@@ -14,29 +14,29 @@ def convert_cmt(cell_data, number='0'):
     second_data_value = int(cell_data.value[index_second_char:index_second_char+5])
     return first_data_value+str(second_data_value)+"/"+last_char
 
-#Menghapus kolom yang ditentukan
-#list tuple sesuai preferensi sendiri !!!
+#Delete defined column
+#list tuple follow own reference !!!
 def del_columns(worksheet):
     tuple_for_cols = ([3,2],[5,1],[6,2],[9,3],[10,4],[12,7],[13,1],[14,1],[15,2],[16,6],[17,13])
     
     for col in tuple_for_cols:
         worksheet.delete_cols(col[0],col[1])
 
-#Unhide semua kolom
+#unhide all column
 def unhide_col(worksheet):
     len_col = worksheet.max_column
     for cols in range(1,len_col+1):
         col = get_column_letter(cols)
         worksheet.column_dimensions[col].hidden = False
 
-#memberi nomor sampai max value colomn
+#giving index number until max value colomn
 def add_number(worksheet):
     len_col = worksheet.max_column
     for rows in range(1):
         for cols in range(1,len_col+1):
             worksheet.cell(2,cols).value = cols
 
-#Membuat auto width kolom
+#auto width column
 def auto_fit(worksheet):
     len_col = worksheet.max_column
     len_row = worksheet.max_row
@@ -52,7 +52,7 @@ def auto_fit(worksheet):
                 column_width = 25
         worksheet.column_dimensions[letter].width = column_width+2
 
-#Mengapus baris yang kosong
+#delete empty row value
 def del_rows(sheet):
     len_row = sheet.max_row
     index_row = []
@@ -71,20 +71,20 @@ def del_rows(sheet):
         index_row = list(map(lambda k: k - 1, index_row))
 
 
-#Set border untuk Cell
+#Set border for Cell
 def set_border(style_desc):
     return Border(left=Side(style=style_desc), 
                         right=Side(style=style_desc), 
                         top=Side(style=style_desc), 
                         bottom=Side(style=style_desc))
 
-#Auto border range yang ditentukan    
+#Auto border defined range    
 def auto_border(sheet,end_row,end_col,style='thin',start_row=1,start_col=1):
     for row in range(start_row,end_row+1):
         for col in range(start_col,end_col+1):
             sheet.cell(row,col).border = set_border(style)
 
-#Ambil copy data row/column untuk disimpan di list database
+#Take copy data row/column to save in list database
 def take_data(sheet,range_copy: Any='Enter Row Number or Collumn Letter'):
     data_copy = []
     if isinstance(range_copy,int):
@@ -100,7 +100,7 @@ def take_data(sheet,range_copy: Any='Enter Row Number or Collumn Letter'):
                 data_copy.append(row.value)
     return data_copy
 
-#Paste data dari database yang sudah dicopy
+#Paste data from database
 def put_data(sheet,list_data,paste_as: Any='Type row or col',cell: Any='Cell Destination'):
     cell = coordinate_from_string(cell)
     row_number = cell[1]
@@ -120,7 +120,7 @@ def put_data(sheet,list_data,paste_as: Any='Type row or col',cell: Any='Cell Des
                 cell.value = list_data[i]
                 i += 1
 
-#Fungsi menerima input data dari User -> cek database -> menyimpan di list
+#Function take input data from User -> check database -> save in list
 def input_data(sheet):
     data_input = []
     while True:
@@ -135,7 +135,7 @@ def input_data(sheet):
                 data_input.append(cell[1])
                 print(cell_value,' Added')
             
-            #Fungi dibawah menambahkan pesan apabila tidak ada dalam 1x loop, tetapi dengan  efek samping lama
+            #below func show messege to check in 1 loop if there is no data, but with side effect long loading
             '''
             else:
                 n += 1
