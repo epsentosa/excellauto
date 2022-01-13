@@ -1,6 +1,7 @@
 import openpyxl as xl
 from utils import *
 import subprocess
+import os
 
 def del_rows(sheet):
     len_row = sheet.max_row
@@ -19,13 +20,27 @@ def del_rows(sheet):
         # exclude offset of rows through each iteration
         index_row = list(map(lambda k: k - 1, index_row))
 
-source_file = 'ooh2.xlsx'
-target_file = 'Subcon Master Data.xlsx'
 
-wb_src = xl.load_workbook(source_file)
-wb_tgt = xl.load_workbook(target_file)
-sheet = wb_src.active
-dest_sheet = wb_tgt.active
+os.chdir("/home/user044/Documents/Eko Putra/New Subcon/")
+ooh = "/home/user044/Documents/Eko Putra/OOH/"
+
+loop = False
+while loop == False:
+    try:
+        file_date = input('Enter OOH Date Release [ex. 1-jan-20]\n ==> ')
+        
+        source_file = f'{ooh}ooh_{file_date.lower()}_sc.xlsx'
+        target_file = 'Subcon Master Data.xlsx'
+
+        wb_src = xl.load_workbook(source_file)
+        wb_tgt = xl.load_workbook(target_file)
+        sheet = wb_src.active
+        dest_sheet = wb_tgt.active
+
+        loop = True
+    except FileNotFoundError:
+        print('File Not Found, Enter correct filedate-name')
+
 
 data_input = input_data(sheet)
 
@@ -79,11 +94,41 @@ del_rows(new_sheet)
 len_row = new_sheet.max_row
 new_sheet[f'G{len_row}'].value = f'=SUM(G4:G{len_row-1})'
 
+#inserting row
+while True:
+    add_row = input('Want to insert row between rows? (y/n) :')
+    if add_row.lower() == 'y':
+        while True:
+            try:
+                insert_row(new_sheet)
+                break
+            except ValueError:
+                print('Enter Number')
+        break
+
+    elif add_row.lower() == 'n':
+        break
+    else:
+        print('Enter (y/n)')
+
+new_wb.save(newfilename)
+#add formula required
+len_row = new_sheet.max_row
+row = 4
+for data in new_sheet.iter_rows(min_row=4, max_row=len_row-1):
+    buyer = data[0].value
+    target_ex_fty = data[column_index_from_string('I')-1]
+    price_06 = data[column_index_from_string('P')-1]
+    if buyer is not None:
+        target_ex_fty.value = f'=H{row}-4'
+        price_06.value = f'=O{row}*0.6'
+    row += 1
+
 new_wb.save(newfilename)
 print(f'{newfilename} saved.')
 
 while True:
-    openfile = input('Want to open file now ? [y/n]\n')
+    openfile = input('Want to open file now ? [y/n]\n=> ')
     if openfile.upper() == 'Y':
         opener = 'libreoffice'
         subprocess.call([opener,newfilename])

@@ -2,12 +2,22 @@ import openpyxl as xl
 from utils import *
 import os
 
-os.chdir("/home/user044/Documents/Python/excellauto/")
-file1 = 'ooh.xlsx'
-file2 = 'ooh2.xlsx'
+os.chdir("/home/user044/Documents/Eko Putra/OOH/")
 
-wb = xl.load_workbook(file1)
-sheet = wb.active
+loop = False
+while loop == False:
+    try:
+        file_date = input('Enter Date Release [ex. 1-jan-20]\n ==> ')
+
+        file1 = f'ooh_{file_date.lower()}.xlsx'
+        file2 = f'ooh_{file_date.lower()}_sc.xlsx'
+
+        wb = xl.load_workbook(file1)
+        sheet = wb.active
+
+        loop = True
+    except FileNotFoundError:
+        print('File Not Found, Enter correct filedate-name')
 
 del_columns(sheet)
 unhide_col(sheet)
@@ -35,6 +45,8 @@ len_col = sheet.max_column
 last_col = get_column_letter(len_col)
 range_filter = f'A5:{last_col}{len_col}'
 sheet.auto_filter.ref = range_filter
+
+print('Operation Success')
 
 wb.save(file2)
 os.system(f'libreoffice {file2}')

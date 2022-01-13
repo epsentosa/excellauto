@@ -2,6 +2,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles.borders import Border, Side
 from openpyxl.utils.cell import coordinate_from_string, column_index_from_string
 from typing import Any
+from copy import copy
 
 #example result of convert (21/E/SB/C/GIOD/00767 - B to GIOD/767/B)
 def convert_cmt(cell_data, number='0'):
@@ -122,6 +123,7 @@ def put_data(sheet,list_data,paste_as: Any='Type row or col',cell: Any='Cell Des
 
 #Function take input data from User -> check database -> save in list
 def input_data(sheet):
+    print('\nEnter CMT, type finish to end adding')
     data_input = []
     while True:
         input_value = input('Enter CMT No : ')
@@ -142,3 +144,31 @@ def input_data(sheet):
                 if n == len(list(sheet.iter_rows(min_row=6,max_col=1))):
                     print('No Data, pls enter correct CMT') '''
     return data_input
+
+#insert row as requested user
+def insert_row(sheet):
+    amount = int(input('How many row in between? : '))
+    index_row = []
+    for row in range(4,(sheet.max_row)):
+        cell = sheet[f'A{row}']
+        if cell.value != None:
+            index_row.append(row)
+    
+    for insert in range(len(index_row)):
+        sheet.insert_rows(idx=index_row[insert]+1, amount=amount)
+        index_row = list(map(lambda k: k + amount, index_row))
+
+    for row in range(4,(sheet.max_row+1)):
+        cell = sheet[f'A{row}']
+        if cell.value is None:
+            for col in range(0,sheet.max_column):
+                letter = get_column_letter(col+1)
+                sc_cell = sheet[f'{letter}{row-1}']
+                new_cell = sheet[f'{letter}{row}']
+                #copy format row
+                new_cell.font = copy(sc_cell.font)
+                new_cell.border = copy(sc_cell.border)
+                new_cell.fill = copy(sc_cell.fill)
+                new_cell.number_format = copy(sc_cell.number_format)
+                new_cell.protection = copy(sc_cell.protection)
+                new_cell.alignment = copy(sc_cell.alignment)
