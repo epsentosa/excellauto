@@ -148,6 +148,8 @@ def input_data(sheet):
 #insert row as requested user
 def insert_row(sheet):
     amount = int(input('How many row in between? : '))
+    if amount == 0:
+        return
     index_row = []
     for row in range(4,(sheet.max_row)):
         cell = sheet[f'A{row}']
