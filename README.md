@@ -1,5 +1,5 @@
-# excellauto
+# Worksheet Automation running on CLI
 
 For Personal Automation, could not attach real excel due to Company Courtesy
 
-Feel Free to ask on function in utils.py
+Feel free to ask on function in utils.py
