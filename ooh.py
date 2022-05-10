@@ -4,8 +4,7 @@ import os
 
 os.chdir("/home/user044/Documents/Eko Putra/OOH/")
 
-loop = False
-while loop == False:
+while True:
     try:
         file_date = input('Enter Date Release [ex. 1-jan-20]\n ==> ')
 
@@ -14,8 +13,7 @@ while loop == False:
 
         wb = xl.load_workbook(file1)
         sheet = wb.active
-
-        loop = True
+        break
     except FileNotFoundError:
         print('File Not Found, Enter correct filedate-name')
 
