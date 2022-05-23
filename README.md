@@ -4,5 +4,5 @@ For Personal Automation, could not attach real excel due to Company Courtesy
 
 Feel free to ask on function in utils.py
 
-![ooh](gif/ooh\ rec.gif)
+![ooh](gif/ooh.gif)
 ![subcon](gif/subcon.gif)
