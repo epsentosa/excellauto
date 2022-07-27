@@ -146,7 +146,7 @@ for data in new_sheet.iter_rows(min_row=4, max_row=len_row-1):
             wash_adj.value = f'=IF(P{row}>=1,P{row}-0.2,IF(P{row}>=0.76,P{row}-0.15,IF(P{row}>=0.41,P{row}-0.1,P{row}-0.05)))'
         
         target_ex_fty.value = f'=H{row}-4'
-        price_06.value = f'=O{row}*0.6'
+        price_06.value = f'=O{row}*0.45'
     row += 1
 
 new_wb.save(newfilename)
